@@ -7,13 +7,9 @@ import { modals } from '@mantine/modals';
 
 export default function Page() {
   const [{ isWakeLocked }, setWakeLock] = useState<{
-    isSupported: boolean;
     isWakeLocked: boolean;
-    loading: boolean;
   }>({
-    isSupported: false,
     isWakeLocked: false,
-    loading: true,
   });
   const wakelock = useRef<WakeLockSentinel | null>(null);
 
