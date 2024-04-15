@@ -1,30 +1,39 @@
-'use client';
-import { Container, Text, Button, Group } from '@mantine/core';
-import { GithubIcon } from '@mantinex/dev-icons';
-import classes from './HeroTitle.module.css';
-import { useEffect, useRef, useState } from 'react';
-import { modals } from '@mantine/modals';
+"use client";
+import { Container, Text, Button, Group } from "@mantine/core";
+import { GithubIcon } from "@mantinex/dev-icons";
+import classes from "./HeroTitle.module.css";
+import { useEffect, useRef, useState } from "react";
+import { modals } from "@mantine/modals";
 
 export default function Page() {
-  const [{ isWakeLocked }, setWakeLock] = useState<{
+  const [{ isWakeLocked, wakelock }, setWakeLock] = useState<{
     isWakeLocked: boolean;
+    wakelock: WakeLockSentinel | null;
   }>({
     isWakeLocked: false,
+    wakelock: null,
   });
-  const wakelock = useRef<WakeLockSentinel | null>(null);
 
   return (
     <div className={classes.wrapper}>
       <Container size={700} className={classes.inner}>
         <h1 className={classes.title}>
-          Stay Alive:{' '}
-          <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
+          Stay Alive:{" "}
+          <Text
+            component="span"
+            variant="gradient"
+            gradient={{ from: "blue", to: "cyan" }}
+            inherit
+          >
             Wake Lock
-          </Text>{' '} Control Panel
+          </Text>{" "}
+          Control Panel
         </h1>
 
         <Text className={classes.description} color="dimmed">
-          Prevent your screen from dimming, locking, or sleeping with just one click. Wake Lock One-Click ensures your screen stays active as long as your browser runs.
+          Prevent your screen from dimming, locking, or sleeping with just one
+          click. Wake Lock One-Click ensures your screen stays active as long as
+          your browser runs.
         </Text>
 
         <Group className={classes.controls}>
@@ -32,25 +41,26 @@ export default function Page() {
             size="xl"
             className={classes.control}
             variant="gradient"
-            gradient={{ from: isWakeLocked ? 'red' : 'blue', to: isWakeLocked ? 'pink' : 'cyan' }}
+            gradient={{
+              from: isWakeLocked ? "red" : "blue",
+              to: isWakeLocked ? "pink" : "cyan",
+            }}
             onClick={async () => {
-              if ('wakeLock' in navigator === false) {
+              if ("wakeLock" in navigator === false) {
                 modals.openConfirmModal({
-                  title: 'Wake lock not supported',
+                  title: "Wake lock not supported",
                   children: (
-                    <Text>
-                      Your browser does not support Wake Lock API.
-                    </Text>
+                    <Text>Your browser does not support Wake Lock API.</Text>
                   ),
                   labels: {
-                    cancel: 'Close',
-                    confirm: 'Ok'
-                  }
-                })
+                    cancel: "Close",
+                    confirm: "Ok",
+                  },
+                });
                 return;
               }
               if (isWakeLocked) {
-                wakelock.current?.release();
+                wakelock?.release();
                 setWakeLock((prev) => {
                   return {
                     ...prev,
@@ -59,11 +69,12 @@ export default function Page() {
                 });
                 return;
               }
-              wakelock.current = await navigator.wakeLock.request("screen");
+              const temp = await navigator.wakeLock.request("screen");
               setWakeLock((prev) => {
                 return {
                   ...prev,
                   isWakeLocked: true,
+                  wakelock: temp,
                 };
               });
             }}
