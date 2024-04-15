@@ -26,8 +26,11 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Stay Alive: Wake Lock",
     description: "Prevent your screen from dimming, locking, or sleeping with just one click. Wake Lock One-Click ensures your screen stays active as long as your browser runs.",
-    images: ['https://wakelock-web.vercel.app/opengraph-image.jpg'], 
+    images: ['https://wakelock-web.vercel.app/opengraph-image.jpg'],
   },
+  other: {
+    'google-site-verification': 'BPwrq7h2tmSTfPpNSbULr2DcbRwfjPd5Fk8R1J1caI8',
+  }
 };
 
 export default function RootLayout({ children }: { children: any }) {

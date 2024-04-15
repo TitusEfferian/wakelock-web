@@ -16,17 +16,7 @@ export default function Page() {
     loading: true,
   });
   const wakelock = useRef<WakeLockSentinel | null>(null);
-  useEffect(() => {
-    if ("wakeLock" in navigator) {
-      setWakeLock((prev) => {
-        return {
-          ...prev,
-          isSupported: true,
-          loading: false,
-        };
-      });
-    }
-  }, []);
+
   return (
     <div className={classes.wrapper}>
       <Container size={700} className={classes.inner}>
