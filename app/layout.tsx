@@ -2,10 +2,11 @@ import "@mantine/core/styles.css";
 import React from "react";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { theme } from "../theme";
+import {ModalsProvider} from '@mantine/modals';
 
 export const metadata = {
-  title: "Mantine Next.js template",
-  description: "I am using Mantine with Next.js!",
+  title: "Stay Alive: Wake Lock",
+  description: "Prevent your screen from dimming, locking, or sleeping with just one click. Wake Lock One-Click ensures your screen stays active as long as your browser runs.",
 };
 
 export default function RootLayout({ children }: { children: any }) {
@@ -20,7 +21,11 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider defaultColorScheme="dark" theme={theme}>
+          <ModalsProvider>
+            {children}
+          </ModalsProvider>
+        </MantineProvider>
       </body>
     </html>
   );
