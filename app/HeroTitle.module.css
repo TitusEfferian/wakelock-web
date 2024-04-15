@@ -46,6 +46,8 @@
 
   @media (max-width: $mantine-breakpoint-sm) {
     margin-top: var(--mantine-spacing-xl);
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -55,9 +57,10 @@
   padding-right: rem(38px);
 
   @media (max-width: $mantine-breakpoint-sm) {
-    height: rem(54px);
-    padding-left: rem(18px);
-    padding-right: rem(18px);
+
+    /* padding-left: rem(18px); */
+    width: 100%;
+    padding: rem(12px);
     flex: 1;
   }
 }

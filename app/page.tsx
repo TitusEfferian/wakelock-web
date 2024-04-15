@@ -1,79 +1,3 @@
-// "use client";
-// import { Button, Center, Stack, Text, Title } from "@mantine/core";
-// import { modals } from "@mantine/modals";
-// import { useEffect, useRef, useState } from "react";
-
-// export default function HomePage() {
-//   const [{ isWakeLocked }, setWakeLock] = useState<{
-//     isSupported: boolean;
-//     isWakeLocked: boolean;
-//     loading: boolean;
-//   }>({
-//     isSupported: false,
-//     isWakeLocked: false,
-//     loading: true,
-//   });
-//   const wakelock = useRef<WakeLockSentinel | null>(null);
-//   useEffect(() => {
-//     if ("wakeLock" in navigator) {
-//       setWakeLock((prev) => {
-//         return {
-//           ...prev,
-//           isSupported: true,
-//           loading: false,
-//         };
-//       });
-//     }
-//   }, []);
-//   return (
-//     <Center h={"100vh"}>
-//       <Stack>
-//       <Title>
-//       Stay Active: WakeLock Control Panel
-//       </Title>
-//       <Button
-//         onClick={async () => {
-//           if('wakeLock' in navigator === true) {
-//             modals.openConfirmModal({
-//               title: 'Wake lock not supported',
-//               children: (
-//                 <Text>
-//                   Your browser does not support Wake Lock API.
-//                 </Text>
-//               ),
-//               labels:{
-//                 cancel: 'Close',
-//                 confirm: 'Ok'
-//               }
-//             })
-//             return;
-//           }
-//           if (isWakeLocked) {
-//             wakelock.current?.release();
-//             setWakeLock((prev) => {
-//               return {
-//                 ...prev,
-//                 isWakeLocked: false,
-//               };
-//             });
-//             return;
-//           }
-//           wakelock.current = await navigator.wakeLock.request("screen");
-//           setWakeLock((prev) => {
-//             return {
-//               ...prev,
-//               isWakeLocked: true,
-//             };
-//           });
-//         }}
-//       >
-//         {isWakeLocked ? "disable wake lock" : "enable wake lock"}
-//       </Button>
-//       </Stack>
-//     </Center>
-//   );
-// }
-
 'use client';
 import { Container, Text, Button, Group } from '@mantine/core';
 import { GithubIcon } from '@mantinex/dev-icons';
@@ -163,7 +87,7 @@ export default function Page() {
 
           <Button
             component="a"
-            href="https://github.com/mantinedev/mantine"
+            href="https://github.com/TitusEfferian/wakelock-web"
             size="xl"
             variant="default"
             className={classes.control}
