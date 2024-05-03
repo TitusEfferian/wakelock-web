@@ -2,7 +2,7 @@
 import { Container, Text, Button, Group } from "@mantine/core";
 import { GithubIcon } from "@mantinex/dev-icons";
 import classes from "./HeroTitle.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { modals } from "@mantine/modals";
 
 export default function Page() {
@@ -13,6 +13,40 @@ export default function Page() {
     isWakeLocked: false,
     wakelock: null,
   });
+
+  const handleOnClick = useCallback(async () => {
+    if ("wakeLock" in navigator === false) {
+      modals.openConfirmModal({
+        title: "Wake lock not supported",
+        children: (
+          <Text>Your browser does not support Wake Lock API.</Text>
+        ),
+        labels: {
+          cancel: "Close",
+          confirm: "Ok",
+        },
+      });
+      return;
+    }
+    if (isWakeLocked) {
+      wakelock?.release();
+      setWakeLock((prev) => {
+        return {
+          ...prev,
+          isWakeLocked: false,
+        };
+      });
+      return;
+    }
+    const temp = await navigator.wakeLock.request("screen");
+    setWakeLock((prev) => {
+      return {
+        ...prev,
+        isWakeLocked: true,
+        wakelock: temp,
+      };
+    });
+  },[isWakeLocked, wakelock])
 
   return (
     <div className={classes.wrapper}>
@@ -32,8 +66,7 @@ export default function Page() {
 
         <Text className={classes.description} color="dimmed">
           Prevent your screen from dimming, locking, or sleeping with just one
-          click. Wake Lock One-Click ensures your screen stays active as long as
-          your browser runs.
+          click. Wake Lock One-Click ensures your screen stays active as long as you are staying on this website.
         </Text>
 
         <Group className={classes.controls}>
@@ -45,39 +78,7 @@ export default function Page() {
               from: isWakeLocked ? "red" : "blue",
               to: isWakeLocked ? "pink" : "cyan",
             }}
-            onClick={async () => {
-              if ("wakeLock" in navigator === false) {
-                modals.openConfirmModal({
-                  title: "Wake lock not supported",
-                  children: (
-                    <Text>Your browser does not support Wake Lock API.</Text>
-                  ),
-                  labels: {
-                    cancel: "Close",
-                    confirm: "Ok",
-                  },
-                });
-                return;
-              }
-              if (isWakeLocked) {
-                wakelock?.release();
-                setWakeLock((prev) => {
-                  return {
-                    ...prev,
-                    isWakeLocked: false,
-                  };
-                });
-                return;
-              }
-              const temp = await navigator.wakeLock.request("screen");
-              setWakeLock((prev) => {
-                return {
-                  ...prev,
-                  isWakeLocked: true,
-                  wakelock: temp,
-                };
-              });
-            }}
+            onClick={handleOnClick}
           >
             {isWakeLocked ? "Disable Wake Lock" : "Enable Wake Lock"}
           </Button>
